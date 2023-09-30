@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static',filename='/index.css') }}"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <div class="mx-auto" style="width: 650px"><title>ApartMatch</title></div>
+    <link
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+</head>
+
+<body>
+{% block content %}
+<h1>ApartMatch</h1>
+
+<div class="container mt-5" style="align-content: center">
+  <div class="card" style="align-self: center">
+    <img
+      src="{{ user_data['profile_image_url'] }}"
+      class="card-img-top"
+      alt="Profile Image"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{ user_data['minPrice'] }}</h5>
+      <p class="card-text">Age: {{ user_data['maxPrice'] }}</p>
+      <p class="card-text">Location: {{ user_data[''] }}</p>
+      <p class="card-text">
+        Interests: {{ ', '.join(user_data['amenities']) }}
+      </p>
+      <a href="#" class="btn btn-success">Like</a>
+      <a href="#" class="btn btn-danger">Dislike</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+</body>
