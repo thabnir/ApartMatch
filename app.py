@@ -49,7 +49,7 @@ def search():
 
 import requests # library to make http requests to web services
 
-api_key = "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"
+api_key = ""
 
 # input =                 This variable will store text inputted by the user to serve as prompt for GPT-3 to draft an email
 
