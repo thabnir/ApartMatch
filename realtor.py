@@ -33,23 +33,23 @@ headers = {
 with open("walkscore.csv", "r") as f:
     walkscore_db = pd.read_csv(f)
 
-def get_listings():
+def get_listings(page=1):
     data = {
         'ZoomLevel': '10',
-        'LatitudeMax': '45.84909',
-        'LongitudeMax': '-72.90380',
-        'LatitudeMin': '45.26543',
-        'LongitudeMin': '-74.54213',
+        'LatitudeMax': '45.72066',
+        'LongitudeMax': '-73.41923',
+        'LatitudeMin': '45.32019',
+        'LongitudeMin': '-74.011713',
         'Sort': '6-D',
         'PropertyTypeGroupID': '1',
         'TransactionTypeId': '3',
         'PropertySearchTypeId': '0',
         'Currency': 'CAD',
-        'RecordsPerPage': '1',
+        'RecordsPerPage': '20',
         'ApplicationId': '1',
         'CultureId': '1',
         'Version': '7.0',
-        'CurrentPage': '1',
+        'CurrentPage': f'{page}',
     }
     response = requests.post('https://api2.realtor.ca/Listing.svc/PropertySearch_Post', cookies=cookies, headers=headers, data=data)
     if response.status_code == 200:
