@@ -19,6 +19,9 @@ def search():
     print("behold, the user data:")
     print(user_prefs)
 
+    # TODO: TRANSLATE THE DESCRIPTIONS
+    # MANY ARE IN FRENCH (BASTARDS)
+
     # do a search function
     apt_data = realtor.get_listings(2)
     apartment_data = [
