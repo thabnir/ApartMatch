@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
+import realtor
 
 
 app = Flask(__name__)
@@ -19,29 +20,28 @@ def search():
     print(user_prefs)
 
     # do a search function
+    apt_data = realtor.get_listings(2)
     apartment_data = [
         {
-            'address': '123 Main St',
-            'price': 1000,
-            'bedrooms': 2,
-            'bathrooms': 1,
-            'sqft': 1000,
-            'profile_image_url': 'https://cdn.realtor.ca/listings/TS638316326049630000/reb5/highres/6/22886256_1.jpg',
-            'amenities': ['pool', 'gym', 'parking'],
-        },
-        {
-            'address': '456 Main St',
-            'price': 2000,
-            'bedrooms': 3,
-            'bathrooms': 2,
-            'sqft': 2000,
-            'profile_image_url': 'https://images.unsplash.com/photo-1605146769289-440113cc3d00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80',
-            'amenities': ['pool', 'no gym sadly :(', 'parking'],
-        }
+         'id': '26122566',
+         'mls': '26750912',
+         'description': 'Luxury Condo at the heart of Montreal.  Near Metro station Green line and Orange line.  Next to Univeristy of Concordia. Step distance to Sainte Catherine street with a lot of restaurant and shops.  High end construction and amenities. Good orientation with a lot of sunshine come in. (52873478)',
+         'size': '343 sqft',
+         'type': 'Apartment',
+         'agent': 'Claire Zhu',
+         'agentPhone': '(514) 886-2568',
+         'address': '1500 Boul. René-Lévesque O.|#1003|Montréal (Ville-Marie), Quebec H3G0H6',
+         'slug': '/real-estate/26122566/1500-boul-rené-lévesque-o-1003-montréal-ville-marie-central-west',
+         'photo': 'https://cdn.realtor.ca/listings/TS638316832191670000/reb5/highres/2/26750912_1.jpg',
+         'bathrooms': '1',
+         'bedrooms': 0,
+         'price': '1559',
+         'parking': 0
+         },
     ]
 
 
-    return render_template('tinder.html', apartment_data=apartment_data)
+    return render_template('tinder.html', data=apt_data)
 
 
 if __name__ == '__main__':
