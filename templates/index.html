@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link
+<!--     <link
       rel="stylesheet"
       type="text/css"
       href="{{ url_for('static',filename='/index.css') }}"
+    /> -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/static/index.css"
     />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,9 +18,16 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+    <style>
+    h1 {
+      font-family: 'Righteous', sans-serif;
+      font-size: 100px;
+    }
+  </style>
   </head>
   <body>
-    <div class="mx-auto" style="width: 650px">
+    <div class="mx-auto container-box" style="width: 650px">
       <h1>ApartMatch</h1>
       <h2>Apartment Preferences</h2>
       <form action="{{ url_for('search') }}" method="post">
