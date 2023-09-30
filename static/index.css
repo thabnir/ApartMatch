@@ -1,15 +1,24 @@
 /* Apartment Match header style */
+<link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+
 h1 {
+  font-family: 'Righteous', sans-serif;
   text-align: center;
+  font-size: 100px;
 }
 
 h2 {
-  text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
-/*img {*/
-/*  float: left;*/
-/*  width:  600px;*/
-/*  height: 600px;*/
-/*  object-fit: cover;*/
-/*}*/
+body {
+  background-image: linear-gradient(to bottom right, #ffc0cb, #ffff00);
+}
+
+/* Style the container with a box and white background */
+.container-box {
+  padding: 30px;
+  background-color: white;
+  border-radius: 10px;
+  height: 900px;
+}
