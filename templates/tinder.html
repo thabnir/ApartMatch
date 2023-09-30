@@ -59,13 +59,14 @@
 
             function showImages(index) {
                 const apartment = apartments[index];
-                const imageHtml = apartment["profile_images"].map((imageUrl, i) => `
-                <img
-                    src="${imageUrl}"
-                    class="carousel-image ${i === 0 ? 'active' : ''}"
-                    alt="Apartment Image"
-                />
-            `).join('');
+            {#    const imageHtml = apartment["photos"]#}
+            {#        .map((imageUrl, i) => `#}
+            {#    <img#}
+            {#        src="${imageUrl}"#}
+            {#        class="carousel-image ${i === 0 ? 'active' : ''}"#}
+            {#        alt="Apartment Image"#}
+            {#    />#}
+            {#`).join('');#}
                 imageCarousel.innerHTML = imageHtml;
                 currentImageIndex = 0; // Reset image index to 0 when showing a new card
             }
