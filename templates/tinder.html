@@ -17,26 +17,53 @@
 
 <body>
 {% block content %}
-<h1>ApartMatch</h1>
+    <h1>ApartMatch</h1>
 
-<div class="container mt-5" style="align-content: center">
-  <div class="card" style="align-self: center">
-    <img
-      src="{{ user_data['profile_image_url'] }}"
-      class="card-img-top"
-      alt="Profile Image"
-    />
-    <div class="card-body">
-      <h5 class="card-title">{{ user_data['minPrice'] }}</h5>
-      <p class="card-text">Age: {{ user_data['maxPrice'] }}</p>
-      <p class="card-text">Location: {{ user_data[''] }}</p>
-      <p class="card-text">
-        Interests: {{ ', '.join(user_data['amenities']) }}
-      </p>
-      <a href="#" class="btn btn-success">Like</a>
-      <a href="#" class="btn btn-danger">Dislike</a>
+    <div class="container mt-5" style="align-content: center">
+            <div class="card" style="align-self: center">
+                <img
+                        src="{{ apartment_data[0]['profile_image_url'] }}"
+                        class="card-img-top"
+                        alt="Apartment Image"
+                />
+                <div class="card-body">
+                    <h5 class="card-title">${{ apartment_data[0]['price'] }} </h5>
+                    <p class="card-text">Location: {{ apartment_data[0]['address'] }}</p>
+                    <p class="card-text">
+                        <b>Amenities:</b> {{ ', '.join(apartment_data[0]['amenities']) }}
+                    </p>
+                    <button class="btn btn-success like-button">Like</button>
+                    <button class="btn btn-danger dislike-button">Dislike</button>
+                </div>
+            </div>
     </div>
-  </div>
-</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let currentIndex = 0;
+            const apartments = {{ apartment_data | tojson | safe }};
+            const card = document.querySelector(".card");
+            const likeButton = document.querySelector(".like-button");
+            const dislikeButton = document.querySelector(".dislike-button");
+
+            function showNextCard() {
+                currentIndex++;
+                if (currentIndex < apartments.length) {
+                    const apartment = apartments[currentIndex];
+                    card.querySelector("img").src = apartment["profile_image_url"];
+                    card.querySelector(".card-title").textContent = `${apartment["minPrice"]} - ${apartment["maxPrice"]}`;
+                    card.querySelector(".card-text:nth-child(2)").textContent = `Location: ${apartment["location"]}`;
+                    card.querySelector(".card-text:nth-child(3)").textContent = `Amenities: ${apartment["amenities"].join(", ")}`;
+                } else {
+                    card.style.display = "none"; // No more cards to show
+                }
+            }
+
+            likeButton.addEventListener("click", showNextCard);
+            dislikeButton.addEventListener("click", showNextCard);
+        });
+    </script>
+
+
 {% endblock %}
 </body>
