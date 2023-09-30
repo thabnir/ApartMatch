@@ -1,8 +1,20 @@
 import json
 import logging
-
 import pandas as pd
 import requests
+from enum import Enum
+
+class NumFilter(Enum):
+    ONE = "1-1"
+    ONE_PLUS = "1-0"
+    TWO = "2-2"
+    TWO_PLUS = "2-0"
+    THREE = "3-3"
+    THREE_PLUS = "3-0"
+    FOUR = "4-4"
+    FOUR_PLUS = "4-0"
+    FIVE = "5-5"
+    FIVE_PLUS = "5-0"
 
 cookies = {
     'visid_incap_2269415': '4tvwjL2MSYOojN+pm2zl/1JzGGUAAAAAQUIPAAAAAAB1mlYAL7b/vUi+1jlXvRGQ',
@@ -33,7 +45,27 @@ headers = {
 with open("walkscore.csv", "r") as f:
     walkscore_db = pd.read_csv(f)
 
-def get_listings(page=1):
+def realtor_round_down(n):
+    if n < 0:
+        return 0
+    if n > 10000:
+        return 10000
+    targets = list(reversed([0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 6000, 7000, 8000, 9000, 10000]))
+    for target in targets:
+        if n >= target:
+            return target
+        
+def realtor_round_up(n):
+    if n < 0:
+        return 0
+    if n > 10000:
+        return 10000
+    targets = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 6000, 7000, 8000, 9000, 10000]
+    for target in targets:
+        if n <= target:
+            return target
+
+def get_listings(page=1, count=20, rent_max=None, rent_min=None, beds=None, bathrooms=None):
     data = {
         'ZoomLevel': '10',
         'LatitudeMax': '45.72066',
@@ -45,12 +77,23 @@ def get_listings(page=1):
         'TransactionTypeId': '3',
         'PropertySearchTypeId': '0',
         'Currency': 'CAD',
-        'RecordsPerPage': '20',
+        'RecordsPerPage': f'{count}',
         'ApplicationId': '1',
         'CultureId': '1',
         'Version': '7.0',
         'CurrentPage': f'{page}',
     }
+    if isinstance(rent_max, int):
+        rent_max = realtor_round_down(rent_max)
+        data["RentMax"] = str(rent_max)
+    if isinstance(rent_min, int):
+        rent_min = realtor_round_up(rent_min)
+        data["RentMin"] = str(rent_min)
+    if isinstance(beds, NumFilter):
+        data["BedRange"] = beds.value
+    if isinstance(bathrooms, NumFilter):
+        data["BathRange"] = bathrooms.value
+
     response = requests.post('https://api2.realtor.ca/Listing.svc/PropertySearch_Post', cookies=cookies, headers=headers, data=data)
     if response.status_code == 200:
         r = response.json()
@@ -63,12 +106,13 @@ def get_listings(page=1):
     listings = []
     for result in results:
         try:
-            print(result)
+            # print(result)
 
             postal_code = result["PostalCode"].lower()
             walkscore = walkscore_db[walkscore_db["FSA"] == postal_code[0:3]]
             if walkscore.empty:
                 continue
+            # print(walkscore)
 
             building = result["Building"]
             property = result["Property"]
@@ -77,14 +121,25 @@ def get_listings(page=1):
                 "id": result["Id"],
                 "mls": result["MlsNumber"],
                 "description": result["PublicRemarks"],
-                "size": building["SizeInterior"] if "SizeInterior" in building else building["SizeExterior"],
                 "type": building["Type"],
                 "agent": result["Individual"][0]["Name"],
                 "agentPhone": f'({result["Individual"][0]["Phones"][0]["AreaCode"]}) {result["Individual"][0]["Phones"][0]["PhoneNumber"]}',
                 "address": property["Address"]["AddressText"],
                 "slug": result["RelativeURLEn"],
                 "photo": property["Photo"][0]["HighResPath"],
+                "walkscore": walkscore["Walk Score"].iloc[0],
+                "transitscore": walkscore["Transit Score"].iloc[0],
+                "bikescore": walkscore["Bike Score"].iloc[0]
             }
+            if "SizeInterior" in building:
+                listing["size"] = building["SizeInterior"]
+            elif "SizeExterior" in building:
+                listing["size"] = building["SizeExterior"]
+            elif "SizeTotal" in result["Land"]:
+                listing["size"] = result["Land"]["SizeTotal"]
+            else:
+                continue
+
             listing["bathrooms"] = building["BathroomTotal"] if "BathroomTotal" in building else 0
             listing["bedrooms"] = building["Bedrooms"] if "Bedrooms" in building else 0
 
@@ -93,8 +148,10 @@ def get_listings(page=1):
 
             listings.append(listing)
         except Exception as e:
+            print(result)
             logging.error(e)
     return listings
 
 if __name__ == "__main__":
-    print(get_listings())
+    listings = get_listings(beds=NumFilter.THREE_PLUS)
+    print(listings)
