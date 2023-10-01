@@ -100,6 +100,7 @@ def get_listings(page=1, count=20, rent_max=None, rent_min=None, beds=None, bath
     if response.status_code == 200:
         r = response.json()
     else:
+        logging.error("Network Connection Issue")
         with open("realtor.json") as f:
             r = json.loads(f.read())
             print(r)
