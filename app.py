@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 import realtor
-from bs4 import BeautifulSoup
-import requests
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -42,9 +40,9 @@ bedroom_mapping = {
 def search():
     user_prefs = request.form.to_dict()
     apt_data = realtor.get_listings(page=1,
-                                    count=50,
-                                    rent_max=user_prefs['maxPrice'],
-                                    rent_min=user_prefs['minPrice'],
+                                    count=20,
+                                    rent_max=int(user_prefs['maxPrice']),
+                                    rent_min=int(user_prefs['minPrice']),
                                     beds=bedroom_mapping[user_prefs['beds']],
                                     bathrooms=bedroom_mapping[user_prefs['baths']])
 
@@ -61,16 +59,6 @@ def search():
 
         # remove the extra info at the end of the address
         apartment['address'] = apartment['address'].split('(')[0]
-
-    # scrape the images from the listing page
-    for apartment in apt_data:
-        url = f'https://www.realtor.ca{apartment["slug"]}'
-        r = requests.get(url)
-        soup = BeautifulSoup(r.text, "html.parser")
-        for img in soup.find_all("img"):     # Adjust this line based on the HTML of the page as per
-            url = img.get("src")
-            if url is not None and "http" in url:
-                apartment['photo_list'].append(url)
 
     apt = apt_data[0]
     print(f'Photos: {apt["photo_list"]}')
