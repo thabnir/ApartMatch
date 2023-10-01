@@ -3,7 +3,7 @@
 Built for the 2023 MAIS Hackathon by Thabnir, flyme2bluemoon, clarallelogram and Rain1618
 ## Inspiration
 
-As students, we've all faced the dreaded dilemma of finding a place to live next year. Hours wasted scrolling through Facebook, Kijiji, Zumper... and then summoning the courage to chat with real estate agents - it's a nightmare that should be reserved for horror movies, not house hunting! Reading each description and browsing through 20 photos to weed out potentially problematic apartments is time consuming and annoying :angry: . Imagine if you could spend that time cramming for finals instead.
+As students, we've all faced the dreaded dilemma of finding a place to live next year. Hours wasted scrolling through Facebook, Kijiji, Zumper... and then summoning the courage to chat with real estate agents - it's a nightmare that should be reserved for horror movies, not house hunting! Reading each description and browsing through 20+ photos to weed out potentially problematic apartments is time consuming and annoying :angry: . Imagine if you could spend that time cramming for finals instead.
 
 ## What it does
 Behold, ApartMatch! It gathers listings from various websites into one simple interface. You just input  your budget, the number of bedrooms, and a short description of your dream apartment, and we work our magic. Using image captioning, we analyze the listing photos to provide you with a more truthful description (because let's face it, that third bedroom doesn't always come with windows!). We then combine these enhanced descriptions with the original listing info and employ fancy semantic matching techniques to find your perfect match. One click, and we generate an email to reach out to the listing agent - no more awkward phone calls!
