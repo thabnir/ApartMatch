@@ -55,6 +55,10 @@
         height: 30px;
         background-color: #3399ff;
       }
+      
+      .score-section {
+        padding: 10px;
+      }
     </style>
   </head>
 
@@ -119,27 +123,29 @@
                 <td><strong>Agent: </strong>{{ apartment['agent'] }}</td>
               </tr>
             </table>
-            <p>Walkability:</p>
-            <div class="score-bar">
-              <div
-                class="score-fill"
-                style="width: {{ apartment['walkscore'] }}%"
-              ></div>
+ <!-- Existing code above this -->
+            <p><strong>Walkability:</strong></p>
+            <div class="score-section">
+              <div class="score-bar">
+                <div class="score-fill" style="width: {{ apartment['walkscore'] }}%"></div>
+              </div>
             </div>
-            <p>Transit:</p>
-            <div class="score-bar">
-              <div
-                class="score-fill"
-                style="width: {{ apartment['transitscore'] }}%"
-              ></div>
+
+            <p><strong>Transit:</strong></p>
+            <div class="score-section">
+              <div class="score-bar">
+                <div class="score-fill" style="width: {{ apartment['transitscore'] }}%"></div>
+              </div>
             </div>
-            <p>Bikeability:</p>
-            <div class="score-bar">
-              <div
-                class="score-fill"
-                style="width: {{ apartment['bikescore'] }}%"
-              ></div>
+
+            <p><strong>Bikeability:</strong></p>
+            <div class="score-section">
+              <div class="score-bar">
+                <div class="score-fill" style="width: {{ apartment['bikescore'] }}%"></div>
+              </div>
             </div>
+
+            <!-- Existing code below this -->
             <br />
             <a
               class="btn btn-primary"
