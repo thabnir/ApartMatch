@@ -1,5 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_bootstrap import Bootstrap
+import pickle
+
+import description_matching_for_real
 import realtor
 
 app = Flask(__name__)
@@ -9,6 +12,21 @@ Bootstrap(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
+
+
+# Load the Random Forest model
+with open('./pricepredict/model.pkl', 'rb') as model_file:
+    model = pickle.load(model_file)
+
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    input_data = request.json
+    predicted_price = model.predict(input_data)
+
+    # Return the prediction as JSON response
+    response = {'predicted_price': predicted_price}
+    return jsonify(response)
 
 
 bedroom_mapping = {
@@ -42,9 +60,10 @@ def search():
     if request.method != "POST":
         return redirect("/")
 
+    count = 20
     user_prefs = request.form.to_dict()
     apt_data = realtor.get_listings(page=1,
-                                    count=20,
+                                    count=count,
                                     rent_max=int(user_prefs['maxPrice']),
                                     rent_min=int(user_prefs['minPrice']),
                                     beds=bedroom_mapping[user_prefs['beds']],
@@ -63,9 +82,15 @@ def search():
         # remove the (numbers) at the end of the description
         apartment['description'] = apartment['description'].split('(')[0]
 
-    return render_template('galleryview.html', data=apt_data)
+    sorted_data = description_matching_for_real.match_desc(user_prefs['tags'], apt_data, count)
 
+    for apt, sorted_apt in zip(apt_data, sorted_data):
+        print("apt:")
+        print(apt)
+        print("sorted_apt:")
+        print(sorted_apt)
 
+    return render_template('galleryview.html', data=sorted_data)
 
 
 if __name__ == '__main__':
