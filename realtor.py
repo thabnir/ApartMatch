@@ -1,8 +1,10 @@
 import json
 import logging
+from enum import Enum
+
 import pandas as pd
 import requests
-from enum import Enum
+
 
 class NumFilter(Enum):
     ONE = "1-1"
@@ -148,10 +150,35 @@ def get_listings(page=1, count=20, rent_max=None, rent_min=None, beds=None, bath
 
             listings.append(listing)
         except Exception as e:
-            print(result)
+            # print(result)
             logging.error(e)
     return listings
 
+class ImageUrl:
+    def __init__(self, imgUrl):
+        urlList = imgUrl.split("/")
+        urlList.pop(4)
+        self.baseUrl = "/".join(urlList).split("_")[0]
+
+    def get(self, i):
+        return f"{self.baseUrl}_{i}.jpg"
+    
+    def test(self, i):
+        url = self.get(i)
+        r = requests.get(url)
+        return r.status_code == 200
+
+def get_listing_images(imgUrl):
+    image = ImageUrl(imgUrl)
+    max = 1
+    for i in range(20, 0, -1):
+        if image.test(i):
+            max = i
+            break
+    return [image.get(i) for i in range(max+1)]
+
 if __name__ == "__main__":
-    listings = get_listings(beds=NumFilter.THREE_PLUS)
+    listings = get_listings(count=2)
     print(listings)
+    img = get_listing_images("https://cdn.realtor.ca/listing/TS638218265256600000/reb5/highres/4/20684184_1.jpg")
+    print(img)
