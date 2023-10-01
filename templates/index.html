@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+<!--     <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='/index.css') }}"
+    /> -->
     <link
       rel="stylesheet"
       type="text/css"
       href="/static/index.css"
     />
-    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <div class="mx-auto" style="width: 650px"><title>ApartMatch</title></div>
@@ -15,10 +18,12 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
     <style>
     h1 {
       font-family: 'Righteous', sans-serif;
       font-size: 100px;
+      text-align: center;
     }
   </style>
   </head>
@@ -36,9 +41,9 @@
             name="minPrice"
             min="0"
             max="5000"
-            step="50"
+            step="100"
           />
-          <span id="minPriceValue">0</span> CAD
+          $<span id="minPriceValue">0</span>
         </div>
         <div class="form-group">
           <label for="maxPrice">Maximum Price:</label>
@@ -49,58 +54,52 @@
             name="maxPrice"
             min="0"
             max="5000"
-            step="50"
+            step="100"
           />
-          <span id="maxPriceValue">8000</span> CAD
+            $<span id="maxPriceValue">5000</span>
         </div>
 
-        <div class="dropdown">
-          <div class="dropbtn">Beds</div>
-          <div class="dropdown-content">
-            <a href="#" data-value="ONE">1</a>
-            <a href="#" data-value="ONE_PLUS">1+</a>
-            <a href="#" data-value="TWO">2</a>
-            <a href="#" data-value="TWO_PLUS">2+</a>
-            <a href="#" data-value="THREE">3</a>
-            <a href="#" data-value="THREE_PLUS">3+</a>
-            <a href="#" data-value="FOUR">4</a>
-            <a href="#" data-value="FOUR_PLUS">4+</a>
-            <a href="#" data-value="FIVE">5</a>
-            <a href="#" data-value="FIVE_PLUS">5+</a>
-          </div>
-          <span id="beds" name="beds"></span>
-        </div>
-
-        <div class="dropdown">
-          <div class="dropbtn">Baths</div>
-          <div class="dropdown-content">
-            <a href="#" data-value="ONE">1</a>
-            <a href="#" data-value="ONE_PLUS">1+</a>
-            <a href="#" data-value="TWO">2</a>
-            <a href="#" data-value="TWO_PLUS">2+</a>
-            <a href="#" data-value="THREE">3</a>
-            <a href="#" data-value="THREE_PLUS">3+</a>
-            <a href="#" data-value="FOUR">4</a>
-            <a href="#" data-value="FOUR_PLUS">4+</a>
-            <a href="#" data-value="FIVE">5</a>
-            <a href="#" data-value="FIVE_PLUS">5+</a>
-          </div>
-          <span id="baths" name="baths"></span>
-        </div>
-
-        <form action="#" method="post">
           <div class="form-group">
-            <label for="tags">Description</label>
-            <textarea
-                class="form-control"
-                id="tags"
-                name="tags"
-                placeholder="I want my dream home to have..."
-                rows="4"
+              <p>Select the Number of Bedrooms:</p>
+              <select class="form-select" id="beds" name="beds">
+                  <option value="ONE">1 Bedroom</option>
+                  <option value="ONE_PLUS">1+ Bedrooms</option>
+                  <option value="TWO">2 Bedrooms</option>
+                  <option value="TWO_PLUS">2+ Bedrooms</option>
+                  <option value="THREE">3 Bedrooms</option>
+                  <option value="THREE_PLUS">3+ Bedrooms</option>
+                  <option value="FOUR">4 Bedrooms</option>
+                  <option value="FOUR_PLUS">4+ Bedrooms</option>
+                  <option value="FIVE">5 Bedrooms</option>
+                  <option value="FIVE_PLUS">5+ Bedrooms</option>
+              </select>
+
+              <p>Select the Number of Bathrooms:</p>
+              <select class="form-select" id="baths" name="baths">
+                  <option value="ONE">1 Bathroom</option>
+                  <option value="ONE_PLUS">1+ Bathrooms</option>
+                  <option value="TWO">2 Bathrooms</option>
+                  <option value="TWO_PLUS">2+ Bathrooms</option>
+                  <option value="THREE">3 Bathrooms</option>
+                  <option value="THREE_PLUS">3+ Bathrooms</option>
+                  <option value="FOUR">4 Bathrooms</option>
+                  <option value="FOUR_PLUS">4+ Bathrooms</option>
+                  <option value="FIVE">5 Bathrooms</option>
+                  <option value="FIVE_PLUS">5+ Bathrooms</option>
+              </select>
+          </div>
+          <div class="form-group">
+              <label for="tags">Description</label>
+              <textarea
+                      class="form-control"
+                      id="tags"
+                      name="tags"
+                      placeholder="I want my dream home to have..."
+                      rows="4"
               ></textarea>
           </div>
           <span id="query"></span>
-        </form>
+
             <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>

@@ -24,7 +24,6 @@
             <div class="image-carousel">
                 <!-- Image Carousel Here -->
             </div>
-{#            <img src="https://cdn.realtor.ca/listings/TS638316759975800000/reb5/highres/9/19275679_1.jpg" class="w3-round" alt="filler">#}
 
             <div class="card-body">
                 <h5 class="card-title" id="card-title">${{ data[0]['price'] }} </h5>
@@ -33,7 +32,12 @@
                 <p class="card-text" id="type">Type: {{ data[0]['type'] }}</p>
                 <p class="card-text" id="realtor">Realtor: {{ data[0]['agent'] }}</p>
                 <p class="card-text" id="realtor-phone">{{ data[0]['agentPhone'] }}</p>
+                <p class="card-text" id ="walkscore">{{ data[0]['walkscore'] }}</p>
+                <p class="card-text" id ="description">{{ data[0]['bikescore'] }}</p>
+                <p class="card-text" id ="description">{{ data[0]['transitscore'] }}</p>
                 <p class="card-text" id ="description">{{ data[0]['description'] }}</p>
+
+
 
                 <div class="carousel-controls">
                     <button class="btn btn-primary prev-button">Previous Image</button>
@@ -159,7 +163,7 @@
              display: flex;
              justify-content: center;
              align-items: center;
-             height: 300px; /* Adjust the height as needed */
+             height: fit-content;
              position: relative;
          }
 

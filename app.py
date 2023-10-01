@@ -27,10 +27,7 @@ bedroom_mapping = {
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    form = request.form
-    user_prefs = form.to_dict()
-    print("behold, the user data:")
-    print(user_prefs)
+    user_prefs = request.form.to_dict()
 
     # TODO: TRANSLATE THE DESCRIPTIONS
     # MANY ARE IN FRENCH (BASTARDS)
@@ -38,13 +35,8 @@ def search():
     # DO A FILTERING PROCESS?
     # MAYBE THAT CAN BE PART OF THE AI CHUNK THAT WE ARE SUPPOSED TO HAVE
 
-    # print the search data input
-    print("Printing the search data input")
-    for key, value in user_prefs.items():
-        print(f"{key}: {value}")
-
     apt_data = realtor.get_listings(page=1,
-                                    count=20,
+                                    count=50,
                                     rent_max=user_prefs['maxPrice'],
                                     rent_min=user_prefs['minPrice'],
                                     beds=bedroom_mapping[user_prefs['beds']],
@@ -58,12 +50,13 @@ def search():
         apartment['transitscore'] = int(apartment['transitscore'])
         apartment['bikescore'] = int(apartment['bikescore'])
 
-    apt = apt_data[0]
-    # print formatted data
-    for key, value in apt.items():
-        print(f"{key}: {value}")
+        # remove the (numbers) at the end of the description
+        apartment['description'] = apartment['description'].split('(')[0]
 
-    return render_template('tinder.html', data=apt_data)
+        # remove the extra info at the end of the address
+        apartment['address'] = apartment['address'].split('(')[0]
+
+    return render_template('tind2.html', data=apt_data)
 
 
 if __name__ == '__main__':

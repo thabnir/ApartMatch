@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ApartMatch</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
+
+    <style>
+    h1 {
+        font-family: 'Righteous', sans-serif;
+        font-size: 100px;
+        text-align: center;
+    }
+    </style>
+
+
+    <style>
+        .card {
+            cursor: pointer;
+            transition: 0.3s;
+            width: 63%;
+            margin: auto;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .score-bar {
+            height: 30px;
+            background-color: #e0e0e0;
+        }
+        .score-fill {
+            height: 30px;
+            background-color: #3399ff;
+        }
+    </style>
+</head>
+<body>
+<div class="container pt-5">
+    <h1>ApartMatch</h1>
+    {% for apartment in data %}
+        <div class="card mb-5">
+            <div class="card-body text-center">
+                <img class="card-img-top" src="{{ apartment['photo'] }}" alt="Apartment Image">
+                <h5 class="card-title pt-2">{{ apartment['address'] }}</h5>
+                <p class="card-text">{{ apartment['description'] }}</p>
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Size: </strong>{{ apartment['size'] }}</td>
+                        <td><strong>Price: </strong>${{ apartment['price'] }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bedrooms: </strong>{{ apartment['bedrooms'] }}</td>
+                        <td><strong>Bathrooms: </strong>{{ apartment['bathrooms'] }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parking: </strong>{{ apartment['parking'] }}</td>
+                        <td><strong>Agent: </strong>{{ apartment['agent'] }}</td>
+                    </tr>
+                </table>
+                <p>Walkability:</p>
+                <div class="score-bar">
+                    <div class="score-fill" style="width: {{ apartment['walkscore'] }}%"></div>
+                </div>
+                <p>Transit:</p>
+                <div class="score-bar">
+                    <div class="score-fill" style="width: {{ apartment['transitscore'] }}%"></div>
+                </div>
+                <p>Bikeability:</p>
+                <div class="score-bar">
+                    <div class="score-fill" style="width: {{ apartment['bikescore'] }}%"></div>
+                </div>
+                <br>
+                <a class="btn btn-primary" href="https://www.realtor.ca{{apartment['slug']}}">View Listing</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</html>
