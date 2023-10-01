@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_bootstrap import Bootstrap
 import realtor
 
@@ -12,6 +12,7 @@ def index():
 
 
 bedroom_mapping = {
+    "ANY": None,
     "ONE": realtor.NumFilter.ONE,
     "ONE_PLUS": realtor.NumFilter.ONE_PLUS,
     "TWO": realtor.NumFilter.TWO,
@@ -38,6 +39,9 @@ bedroom_mapping = {
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    if request.method != "POST":
+        return redirect("/")
+
     user_prefs = request.form.to_dict()
     apt_data = realtor.get_listings(page=1,
                                     count=20,
@@ -50,7 +54,7 @@ def search():
         img_url = apartment['photo']
         apartment['photo_list'] = realtor.get_listing_images(img_url)
 
-        apartment['address'] = apartment['address'].replace('|', '\n')
+        apartment['address'] = apartment['address'].replace('|', '<br>')
         # convert from numpy.int64 to int
         apartment['walkscore'] = int(apartment['walkscore'])
         apartment['transitscore'] = int(apartment['transitscore'])
@@ -59,13 +63,10 @@ def search():
         # remove the (numbers) at the end of the description
         apartment['description'] = apartment['description'].split('(')[0]
 
-        # remove the extra info at the end of the address
-        apartment['address'] = apartment['address'].split('(')[0]
-
     return render_template('galleryview.html', data=apt_data)
 
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

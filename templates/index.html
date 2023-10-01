@@ -34,8 +34,9 @@
             id="minPrice"
             name="minPrice"
             min="0"
-            max="5000"
+            max="10000"
             step="100"
+            value="0"
           />
           $<span id="minPriceValue">0</span>
         </div>
@@ -47,8 +48,9 @@
             id="maxPrice"
             name="maxPrice"
             min="0"
-            max="5000"
+            max="10000"
             step="100"
+            value="10000"
           />
           $<span id="maxPriceValue">5000</span>
         </div>
@@ -56,6 +58,7 @@
         <div class="form-group">
           <p>Select the Number of Bedrooms:</p>
           <select class="form-select" id="beds" name="beds">
+            <option value="ANY">Any</option>
             <option value="ONE">1 Bedroom</option>
             <option value="ONE_PLUS">1+ Bedrooms</option>
             <option value="TWO">2 Bedrooms</option>
@@ -70,6 +73,7 @@
 
           <p>Select the Number of Bathrooms:</p>
           <select class="form-select" id="baths" name="baths">
+            <option value="ANY">Any</option>
             <option value="ONE">1 Bathroom</option>
             <option value="ONE_PLUS">1+ Bathrooms</option>
             <option value="TWO">2 Bathrooms</option>

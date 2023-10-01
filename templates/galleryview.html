@@ -64,10 +64,10 @@
 
   <body>
     <div class="container pt-5">
-      <h1>ApartMatch</h1>
+      <h1 class="mb-5">ApartMatch</h1>
       {% for apartment in data %}
       <div class="card mb-5">
-        <div class="card-body text-center">
+          
           <div
             id="carousel{{ loop.index }}"
             class="carousel slide"
@@ -106,8 +106,8 @@
             </button>
           </div>
 
-          <h5 class="card-title pt-2">{{ apartment['address'] }}</h5>
-          <p class="card-text">{{ apartment['description'] }}</p>
+          <h5 class="card-title pt-2 text-left">{{ apartment['address']|safe }}</h5>
+          <p class="card-text text-left">{{ apartment['description'] }}</p>
           <table class="table table-borderless">
             <tr>
               <td><strong>Size: </strong>{{ apartment['size'] }}</td>
