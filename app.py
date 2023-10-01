@@ -84,12 +84,6 @@ def search():
 
     sorted_data = description_matching_for_real.match_desc(user_prefs['tags'], apt_data, count)
 
-    for apt, sorted_apt in zip(apt_data, sorted_data):
-        print("apt:")
-        print(apt)
-        print("sorted_apt:")
-        print(sorted_apt)
-
     return render_template('galleryview.html', data=sorted_data)
 
 
