@@ -132,7 +132,8 @@ def get_listings(page=1, count=20, rent_max=None, rent_min=None, beds=None, bath
                 "photo": property["Photo"][0]["HighResPath"],
                 "walkscore": walkscore["Walk Score"].iloc[0],
                 "transitscore": walkscore["Transit Score"].iloc[0],
-                "bikescore": walkscore["Bike Score"].iloc[0]
+                "bikescore": walkscore["Bike Score"].iloc[0],
+                "fsa": postal_code[0:3]
             }
             if "SizeInterior" in building:
                 listing["size"] = building["SizeInterior"]
