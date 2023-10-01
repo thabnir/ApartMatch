@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
     <title>Apartment Interest Form</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Apartment Interest Form</h1>
     <form action="/submit" method="post">
-        <label for="interest">Are you interested in this apartment?</label>
-        <input type="text" id="interest" name="interest" required>
-        
-        <label for="prompt">Enter text for the email prompt:</label>
-        <textarea id="prompt" name="prompt" rows="4" cols="50" required></textarea>
-        
-        <input type="submit" value="Submit">
+      <label for="interest">Are you interested in this apartment?</label>
+      <input type="text" id="interest" name="interest" required />
+
+      <label for="prompt">Enter text for the email prompt:</label>
+      <textarea
+        id="prompt"
+        name="prompt"
+        rows="4"
+        cols="50"
+        required
+      ></textarea>
+
+      <input type="submit" value="Submit" />
     </form>
-</body>
+  </body>
 </html>
