@@ -6,15 +6,21 @@
     <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet'>
 
     <style>
-    h1 {
-        font-family: 'Righteous', sans-serif;
-        font-size: 100px;
-        text-align: center;
-    }
-    </style>
-
-
-    <style>
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            height: 20px;    /* Change these values as needed */
+            width: 20px;
+        }
+        /* If you want to increase the size of the clickable area */
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;   /* Change this value as needed */
+        }
+        h1 {
+            font-family: 'Righteous', sans-serif;
+            font-size: 100px;
+            text-align: center;
+        }
         .card {
             cursor: pointer;
             transition: 0.3s;
@@ -40,7 +46,24 @@
     {% for apartment in data %}
         <div class="card mb-5">
             <div class="card-body text-center">
-                <img class="card-img-top" src="{{ apartment['photo'] }}" alt="Apartment Image">
+                <div class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for photo_url in apartment['photo_list'] %}
+                            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                <img src="{{photo_url}}" class="d-block w-100">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+{#                <img class="card-img-top" src="{{ apartment['photo'] }}" alt="Apartment Image">#}
                 <h5 class="card-title pt-2">{{ apartment['address'] }}</h5>
                 <p class="card-text">{{ apartment['description'] }}</p>
                 <table class="table table-borderless">

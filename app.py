@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 import realtor
+from bs4 import BeautifulSoup
+import requests
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -9,6 +11,7 @@ Bootstrap(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
+
 
 
 bedroom_mapping = {
@@ -24,17 +27,20 @@ bedroom_mapping = {
     "FIVE_PLUS": realtor.NumFilter.FIVE_PLUS,
 }
 
+# TODOS FOR TOMORROW:
+# MAKE THE SCRAPER PART AT THE END OF SEARCH WORK
+# MAKE THE ARROWS ON THE SIDES OF THE SLIDESHOW THING NOT SUCK
 
+
+
+# TODO: TRANSLATE THE DESCRIPTIONS
+# MANY ARE IN FRENCH (BASTARDS)
+# ALSO MANY SUCK
+# DO A FILTERING PROCESS?
+# MAYBE THAT CAN BE PART OF THE AI CHUNK THAT WE ARE SUPPOSED TO HAVE
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     user_prefs = request.form.to_dict()
-
-    # TODO: TRANSLATE THE DESCRIPTIONS
-    # MANY ARE IN FRENCH (BASTARDS)
-    # ALSO MANY SUCK
-    # DO A FILTERING PROCESS?
-    # MAYBE THAT CAN BE PART OF THE AI CHUNK THAT WE ARE SUPPOSED TO HAVE
-
     apt_data = realtor.get_listings(page=1,
                                     count=50,
                                     rent_max=user_prefs['maxPrice'],
@@ -56,7 +62,20 @@ def search():
         # remove the extra info at the end of the address
         apartment['address'] = apartment['address'].split('(')[0]
 
-    return render_template('tind2.html', data=apt_data)
+    # scrape the images from the listing page
+    for apartment in apt_data:
+        url = f'https://www.realtor.ca{apartment["slug"]}'
+        r = requests.get(url)
+        soup = BeautifulSoup(r.text, "html.parser")
+        for img in soup.find_all("img"):     # Adjust this line based on the HTML of the page as per
+            url = img.get("src")
+            if url is not None and "http" in url:
+                apartment['photo_list'].append(url)
+
+    apt = apt_data[0]
+    print(f'Photos: {apt["photo_list"]}')
+
+    return render_template('galleryview.html', data=apt_data)
 
 
 if __name__ == '__main__':
