@@ -1,4 +1,5 @@
-###Apartmacth!
+### Apartmatch!
+
 Built for the 2023 MAIS Hackathon by Thabnir, flyme2bluemoon, clarallelogram and Rain1618
 ## Inspiration
 
