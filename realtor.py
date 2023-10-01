@@ -175,7 +175,7 @@ def get_listing_images(imgUrl):
         if image.test(i):
             max = i
             break
-    return [image.get(i) for i in range(max+1)]
+    return [image.get(i) for i in range(1, max+1)]
 
 if __name__ == "__main__":
     listings = get_listings(count=2)
