@@ -11,7 +11,6 @@ def index():
     return render_template('index.html')
 
 
-
 bedroom_mapping = {
     "ONE": realtor.NumFilter.ONE,
     "ONE_PLUS": realtor.NumFilter.ONE_PLUS,
@@ -25,10 +24,10 @@ bedroom_mapping = {
     "FIVE_PLUS": realtor.NumFilter.FIVE_PLUS,
 }
 
+
 # TODOS FOR TOMORROW:
 # MAKE THE SCRAPER PART AT THE END OF SEARCH WORK
 # MAKE THE ARROWS ON THE SIDES OF THE SLIDESHOW THING NOT SUCK
-
 
 
 # TODO: TRANSLATE THE DESCRIPTIONS
@@ -36,6 +35,7 @@ bedroom_mapping = {
 # ALSO MANY SUCK
 # DO A FILTERING PROCESS?
 # MAYBE THAT CAN BE PART OF THE AI CHUNK THAT WE ARE SUPPOSED TO HAVE
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     user_prefs = request.form.to_dict()
@@ -47,7 +47,9 @@ def search():
                                     bathrooms=bedroom_mapping[user_prefs['baths']])
 
     for apartment in apt_data:
-        apartment['photo_list'] = [apartment['photo']]
+        img_url = apartment['photo']
+        apartment['photo_list'] = realtor.get_listing_images(img_url)
+
         apartment['address'] = apartment['address'].replace('|', '\n')
         # convert from numpy.int64 to int
         apartment['walkscore'] = int(apartment['walkscore'])
@@ -60,10 +62,9 @@ def search():
         # remove the extra info at the end of the address
         apartment['address'] = apartment['address'].split('(')[0]
 
-    apt = apt_data[0]
-    print(f'Photos: {apt["photo_list"]}')
-
     return render_template('galleryview.html', data=apt_data)
+
+
 
 
 if __name__ == '__main__':
