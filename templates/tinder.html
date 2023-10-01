@@ -24,6 +24,7 @@
             <div class="image-carousel">
                 <!-- Image Carousel Here -->
             </div>
+{#            <img src="https://cdn.realtor.ca/listings/TS638316759975800000/reb5/highres/9/19275679_1.jpg" class="w3-round" alt="filler">#}
 
             <div class="card-body">
                 <h5 class="card-title" id="card-title">${{ data[0]['price'] }} </h5>
@@ -32,7 +33,7 @@
                 <p class="card-text" id="type">Type: {{ data[0]['type'] }}</p>
                 <p class="card-text" id="realtor">Realtor: {{ data[0]['agent'] }}</p>
                 <p class="card-text" id="realtor-phone">{{ data[0]['agentPhone'] }}</p>
-                <p class="card-text" id ="description">Description: {{ data[0]['description'] }}</p>
+                <p class="card-text" id ="description">{{ data[0]['description'] }}</p>
 
                 <div class="carousel-controls">
                     <button class="btn btn-primary prev-button">Previous Image</button>
@@ -59,14 +60,14 @@
 
             function showImages(index) {
                 const apartment = apartments[index];
-            {#    const imageHtml = apartment["photos"]#}
-            {#        .map((imageUrl, i) => `#}
-            {#    <img#}
-            {#        src="${imageUrl}"#}
-            {#        class="carousel-image ${i === 0 ? 'active' : ''}"#}
-            {#        alt="Apartment Image"#}
-            {#    />#}
-            {#`).join('');#}
+                const imageHtml = apartment["photo_list"]
+                    .map((imageUrl, i) => `
+                <img
+                    src="${imageUrl}"
+                    class="carousel-image ${i === 0 ? 'active' : ''}"
+                    alt="Apartment Image"
+                />
+            `).join('');
                 imageCarousel.innerHTML = imageHtml;
                 currentImageIndex = 0; // Reset image index to 0 when showing a new card
             }
@@ -88,7 +89,7 @@
                     updateElementById("type", `Type: ${apartment["type"]}`);
                     updateElementById("realtor", `Realtor: ${apartment["agent"]}`);
                     updateElementById("realtor-phone", `${apartment["agentPhone"]}`);
-                    updateElementById("description", `Description: ${apartment["description"]}`);
+                    updateElementById("description", `${apartment["description"]}`);
                     showImages(currentCardIndex);
                 } else {
                     card.style.display = "none"; // No more cards to show
