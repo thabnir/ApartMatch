@@ -13,18 +13,22 @@
       href="https://fonts.googleapis.com/css?family=Righteous"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <style>
       h1 {
         font-family: "Righteous", sans-serif;
         font-size: 100px;
         text-align: center;
       }
+      h2 {
+        font-family: 'Nunito', sans-serif;
+      }
     </style>
   </head>
   <body>
     <div class="mx-auto container-box" style="width: 650px">
       <h1>ApartMatch</h1>
-      <h2>Apartment Preferences</h2>
+      <h2>Preferences</h2>
       <form action="{{ url_for('search') }}" method="post">
         <div class="form-group">
           <label for="minPrice">Minimum Price:</label>
