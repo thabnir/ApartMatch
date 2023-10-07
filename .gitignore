@@ -1,3 +1,10 @@
+# Random project stuff:
+/__MACOSX/
+/A3DS/
+A3DS.zip
+# joblib files are huge
+*.joblib
+
 ## PyCharm ignore
 .idea
 .idea/*
